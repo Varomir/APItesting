@@ -1,19 +1,23 @@
 package cdp.bonial.qa.dyco;
 
 import cdp.bonial.qa.BaseTest;
+import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.util.List;
+import java.util.Map;
 
 import static cdp.bonial.qa.helpers.ConfigHelper.getUrlFor;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.lessThan;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DycoExampleTest extends BaseTest {
 
     @Test
     public void shouldValidateAndStartImport() {
-        given()
+        Response response = given()
                     .baseUri(getUrlFor("cdp-dynamic-content-api", config))
                     .contentType("multipart/form-data")
                 .when()
@@ -24,7 +28,11 @@ public class DycoExampleTest extends BaseTest {
                 .then()
                     .log().everything()
                     .statusCode(200)
-                    .time(lessThan(5000L));
+                    .time(lessThan(5000L))
+                .extract().response();
+
+        List<Map<String, String>> validationResults = response.jsonPath().getList("publicationValidationMessages");
+        assertEquals(0, validationResults.size(), "The 'validationResults' are not empty");
     }
 
     @Test

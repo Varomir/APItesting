@@ -15,6 +15,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DycoExampleTest extends BaseTest {
 
+//    private static final String IMPORT_FILE = "./src/test/resources/PubProfile_Kaufland_001.xlsx";
+    private static final String IMPORT_FILE = "./src/test/resources/mdc/DE_mdc_Kaufland_001.xlsx";
+
     @Test
     public void shouldValidateAndStartImport() {
         Response response = given()

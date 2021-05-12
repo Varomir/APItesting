@@ -1,11 +1,11 @@
 pipeline {
     agent any
     stages {
-        stage('My-JenkinsBuild-Steps') {
+        stage('Run autotest') {
             steps {
-               echo "Start"
-               echo "Doing something.."
-               echo "End"
+               echo "Start run autotest"
+               sh "mvn clean test"
+               echo "Finish run autotest"
             }
         }
     }

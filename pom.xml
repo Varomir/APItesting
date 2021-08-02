@@ -18,9 +18,12 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
+        <junit5.version>5.7.0</junit5.version>
         <aspectj.version>1.9.1</aspectj.version>
         <allure.version>2.13.6</allure.version>
-        <junit5.version>5.7.0</junit5.version>
+        <allure.cmd.download.url>
+            https://repo.maven.apache.org/maven2/io/qameta/allure/allure-commandline
+        </allure.cmd.download.url>
     </properties>
 
     <dependencies>
@@ -151,6 +154,9 @@
                 <configuration>
                     <reportVersion>${allure.version}</reportVersion>
                     <resultsDirectory>${project.build.directory}/allure-results</resultsDirectory>
+                    <allureDownloadUrl>
+                        ${allure.cmd.download.url}/${allure.version}/allure-commandline-${allure.version}.zip
+                    </allureDownloadUrl>
                 </configuration>
             </plugin>
 

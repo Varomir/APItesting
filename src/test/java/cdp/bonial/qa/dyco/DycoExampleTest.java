@@ -5,37 +5,33 @@ import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.util.List;
-import java.util.Map;
+
 
 import static cdp.bonial.qa.helpers.ConfigHelper.getUrlFor;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.lessThan;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DycoExampleTest extends BaseTest {
 
-//    private static final String IMPORT_FILE = "./src/test/resources/PubProfile_Kaufland_001.xlsx";
-    private static final String IMPORT_FILE = "./src/test/resources/mdc/DE_mdc_Kaufland_001.xlsx";
+    private static final String IMPORT_FILE = "./src/test/resources/mdc/KauflandPublication_1br_001.xlsx";
 
     @Test
     public void shouldValidateAndStartImport() {
+        prepareXLSX(IMPORT_FILE, "Test_" + System.currentTimeMillis());
         Response response = given()
                     .baseUri(getUrlFor("cdp-dynamic-content-api", config))
                     .contentType("multipart/form-data")
                 .when()
                     .param("market", "DE")
-                    .param("scraper", "Kaufland")
-                    .multiPart("profiles", new File("./src/test/resources/PubProfile_Kaufland_001.xlsx"))
+                    .param("scraper", "excel")
+                    .multiPart("profiles", new File("./src/test/resources/mdc/KauflandPublication_1br_001.xlsx"))
+                    .multiPart("offers", new File("./src/test/resources/mdc/002_offers_005.xlsx"))
                     .post("/import/start")
                 .then()
-                    .log().everything()
+//                    .log().everything()
                     .statusCode(200)
                     .time(lessThan(5000L))
                 .extract().response();
-
-        List<Map<String, String>> validationResults = response.jsonPath().getList("publicationValidationMessages");
-        assertEquals(0, validationResults.size(), "The 'validationResults' are not empty");
     }
 
     @Test

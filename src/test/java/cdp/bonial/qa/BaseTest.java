@@ -38,7 +38,7 @@ public class BaseTest {
             workbook = WorkbookFactory.create(inputStream);
 
             Sheet sheet = workbook.getSheetAt(0);
-            Cell cell2Update = sheet.getRow(1).getCell(17);
+            Cell cell2Update = sheet.getRow(1).getCell(20);
             cell2Update.setCellValue(groupName);
             inputStream.close();
 
